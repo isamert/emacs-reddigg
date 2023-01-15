@@ -259,11 +259,15 @@ after deleting the current line which should be the More button."
            ;; (insert level " reddigg: too many subcomments\n")
            (insert my-level
                    (format " [[elisp:(reddigg--view-more-cmts \"%s\" \"%s\")][load more comments (%s)]]\n"
-                          level
-                          (mapconcat #'identity (ht-get data "children") ",")
-                          (ht-get data "count")))
-
-         (insert my-level " " (ht-get data "author") "\n")
+                           level
+                           (mapconcat #'identity (ht-get data "children") ",")
+                           (ht-get data "count")))
+         (insert (format "%s %s (%s↑ %s↓, [[https://reddit.com/%s][permalink]])\n"
+                         my-level
+                         (ht-get data "author")
+                         (ht-get data "ups")
+                         (ht-get data "downs")
+                         (ht-get data "permalink")))
          (setq begin (point))
          (insert (reddigg--print-text (ht-get data "body")) "\n")
          (setq end (point))
